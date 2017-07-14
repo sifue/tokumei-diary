@@ -5,9 +5,40 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var helmet = require('helmet');
+var session = require('express-session');
+var passport = require('passport');
+
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+var GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+
+if(!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
+  throw new Error('Please start with ENV params. ex: PORT=8000 GOOGLE_CLIENT_ID=xxxxxxxxxxxxxxx.apps.googleusercontent.com GOOGLE_CLIENT_SECRET=xxxxxxx-xxxxxxxxxxxxxxx npm start');
+}
+
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+  done(null, obj);
+});
+
+passport.use(new GoogleStrategy({
+  clientID: GOOGLE_CLIENT_ID,
+  clientSecret: GOOGLE_CLIENT_SECRET,
+  callbackURL: 'http://localhost:8000/auth/google/callback'
+},
+  function (accessToken, refreshToken, profile, done) {
+    process.nextTick(function () {
+      return done(null, profile);
+    });
+  }
+));
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var login = require('./routes/login');
+var logout = require('./routes/logout');
 
 var app = express();
 app.use(helmet());
@@ -24,8 +55,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({ secret: process.env.GOOGLE_CLIENT_SECRET, resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', index);
-app.use('/users', users);
+app.use('/login', login);
+app.use('/logout', logout);
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile'] }),
+  function (req, res) {
+});
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function (req, res) {
+    res.redirect('/');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
