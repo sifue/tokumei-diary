@@ -2,6 +2,31 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0')
+    link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
+    link(type='text/css', rel='stylesheet', media='screen,projection', href='//cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css')
+    link(type='text/css', rel='stylesheet', media='screen,projection', href='stylesheets/style.css')
   body
-    block content
+    nav(class='indigo darken-3', role='navigation')
+      div(class='nav-wrapper container')
+        a(id='logo-container', href='#', class='brand-logo') N高 匿名ダイアリー
+        ul(class='right hide-on-med-and-down')
+          li
+            a(href='#') ログイン
+        ul(id='nav-mobile', class='side-nav')
+          li
+            a(href='#') ログイン
+        a(href='#', data-activates='nav-mobile', class='button-collapse')
+          i(class='material-icons') menu
+    div(class='container') 
+      h6 名前を隠して楽しく日記。
+    div(class='container')
+      block content
+    footer(class='page-footer indigo darken-3')
+      div(class='footer-copyright')
+        div(class='container') Managed by 
+          a(href='https://twitter.com/sifue') sifue (Soichiro Yoshimura)
+
+    script(type='text/javascript', src='//code.jquery.com/jquery-2.1.1.min.js')
+    script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js')
+    script(type='text/javascript', src='javascripts/init.js')
