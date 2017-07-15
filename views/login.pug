@@ -1,6 +1,7 @@
 extends layout
 
 block content
-  a(href="/auth/google") Googleアカウントでログイン
+  h5(class='red-text text-darken-1') N高等学校のメールアドレス以外ではログインできません。
+  a(href="/auth/google", class='waves-effect waves-light btn blue darken-2') #{permittedDomain}のドメインのGoogleアカウントでログイン
   if user
      p 現在 #{user.displayName} でログイン中

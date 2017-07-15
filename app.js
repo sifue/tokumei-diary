@@ -8,6 +8,8 @@ var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
 
+var PERMITTED_DOMAIN = 'nnn.ed.jp';
+
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 var GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -29,15 +31,32 @@ passport.use(new GoogleStrategy({
   clientSecret: GOOGLE_CLIENT_SECRET,
   callbackURL: 'http://localhost:8000/auth/google/callback'
 },
-  function (accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
-      return done(null, profile);
+  (accessToken, refreshToken, profile, done) => {
+    process.nextTick(() => {
+      // Check domain
+      const emails = profile.emails;
+      const emailRegExp = new RegExp('.+@' + PERMITTED_DOMAIN + '$');
+      let isPermittedDomain = false;
+      emails.forEach(e => {
+        if (e.type = 'account' && e.value.match(emailRegExp)) {
+          isPermittedDomain = true;
+        }
+      }
+      );
+
+      if(isPermittedDomain) {
+        return done(null, profile);
+      } else {
+        return done(null, false,
+           { message: 'ログインは、' + PERMITTED_DOMAIN　+ 'ドメインのEmailアドレスでのみ認証可能です。'});
+      }
     });
   }
 ));
 
 var index = require('./routes/index');
 var login = require('./routes/login');
+login.permittedDomain = PERMITTED_DOMAIN;
 var logout = require('./routes/logout');
 
 var app = express();
@@ -64,15 +83,16 @@ app.use('/login', login);
 app.use('/logout', logout);
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] }),
+  passport.authenticate('google', { scope: ['profile', 'email'] }),
   function (req, res) {
-});
+  });
 
 app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', {
+    failureRedirect: '/login'}),
   function (req, res) {
     res.redirect('/');
-});
+  });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
