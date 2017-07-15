@@ -11,6 +11,19 @@ var favicon = require('serve-favicon');
 
 var PERMITTED_DOMAIN = 'nnn.ed.jp';
 
+// Load data models and sync.
+var User = require('./models/user');
+var Diary = require('./models/diary');
+var Trackback = require('./models/trackback');
+User.sync().then(() => {
+  Diary.belongsTo(User, {foreignKey: 'userId'});
+  Diary.sync().then(() => {
+    Trackback.belongsTo(Diary, {foreignKey: 'fromDiaryId'});
+    Trackback.belongsTo(Diary, {foreignKey: 'toDiaryId'});
+    Trackback.sync();
+  });
+});
+
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 var GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
