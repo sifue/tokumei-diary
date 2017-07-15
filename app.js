@@ -82,6 +82,7 @@ var index = require('./routes/index');
 var login = require('./routes/login');
 login.permittedDomain = PERMITTED_DOMAIN;
 var logout = require('./routes/logout');
+var agreement = require('./routes/agreement');
 
 var app = express();
 app.use(helmet());
@@ -106,6 +107,7 @@ app.use(passport.session());
 app.use('/', index);
 app.use('/login', login);
 app.use('/logout', logout);
+app.use('/agreement', agreement);
 
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile', 'email'] }),
