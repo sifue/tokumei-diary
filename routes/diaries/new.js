@@ -6,16 +6,18 @@ const Diary = require('../../models/diary');
 const moment = require('moment');
 
 router.get('/', authenticationEnsurer, (req, res, next) => {
-  res.render('diaries/new', { user: req.user });
+  res.render('diaries/new', { 
+    user: req.user,
+    title: '日記を書く'
+   });
 });
 
 router.post('/', authenticationEnsurer, (req, res, next) => {
-  console.log(req.body); // TODO 予定と候補を保存する実装をする
   const diaryId = moment(new Date()).format('YYYYMMDDHHmmssSSS');
   Diary.create({
     diaryId: diaryId,
-    title: req.body.title.slice(0, 255),
-    body: req.body.body,
+    title: req.body.title.slice(0, Diary.titleMaxLength),
+    body: req.body.body.slice(0, Diary.bodyMaxLength),
     userId: req.user.id,
     isDeleted: false
   }).then(() => {

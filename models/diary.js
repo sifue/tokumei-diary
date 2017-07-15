@@ -37,4 +37,7 @@ const Diary = loader.database.define('diaries', {
     ]
   });
 
+Diary.titleMaxLength = 255;
+Diary.bodyMaxLength = 200000;
+
 module.exports = Diary;
