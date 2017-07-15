@@ -12,7 +12,7 @@ const Diary = loader.database.define('diaries', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  text: {
+  body: {
     type: Sequelize.TEXT,
     allowNull: false
   },

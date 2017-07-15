@@ -5,22 +5,32 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0')
     link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
     link(type='text/css', rel='stylesheet', media='screen,projection', href='//cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css')
-    link(type='text/css', rel='stylesheet', media='screen,projection', href='stylesheets/style.css')
+    link(type='text/css', rel='stylesheet', media='screen,projection', href='/stylesheets/style.css')
   body
     nav(class='indigo darken-3', role='navigation')
       div(class='nav-wrapper container')
         a(id='logo-container', href='/', class='brand-logo') N高 匿名ダイアリー
         ul(class='right hide-on-med-and-down')
-          li
-            if user
-              a(href='/logout') #{user.displayName} からログアウト
-            else
+          if user
+            li
+              a(href='/diaries/my') #{user.displayName} の日記
+            li
+              a(href='/diaries/new') 日記を書く
+            li
+              a(href='/logout') ログアウト
+          else
+            li
               a(href='/auth/google') ログイン
         ul(id='nav-mobile', class='side-nav')
-          li
-            if user
-              a(href='/logout') #{user.displayName} からログアウト
-            else
+          if user
+            li
+              a(href='/my') #{user.displayName} の日記
+            li
+              a(href='/new') 日記を書く
+            li
+              a(href='/logout') ログアウト
+          else
+            li
               a(href='/auth/google') ログイン
         a(href='#', data-activates='nav-mobile', class='button-collapse')
           i(class='material-icons') menu
@@ -44,4 +54,4 @@ html
           p Copyright © 2017 Soichiro Yoshimura All Rights Reserved.
     script(type='text/javascript', src='//code.jquery.com/jquery-2.1.1.min.js')
     script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js')
-    script(type='text/javascript', src='javascripts/init.js')
+    script(type='text/javascript', src='/javascripts/init.js')
