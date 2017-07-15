@@ -58,11 +58,21 @@ passport.use(new GoogleStrategy({
       }
       );
 
-      if(isPermittedDomain) {
+      if (isPermittedDomain) {
+        User.upsert({
+          userId: profile.id,
+          displayName: profile.displayName,
+          emails: JSON.stringify(profile.emails),
+          photos: JSON.stringify(profile.photos),
+          isBan: false,
+          isAdmin: false
+        }).then(() => {
+          done(null, profile);
+        });
         return done(null, profile);
       } else {
         return done(null, false,
-           { message: 'ログインは、' + PERMITTED_DOMAIN　+ 'ドメインのEmailアドレスでのみ認証可能です。'});
+          { message: 'ログインは、' + PERMITTED_DOMAIN 　+ 'ドメインのEmailアドレスでのみ認証可能です。' });
       }
     });
   }

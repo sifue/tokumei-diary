@@ -16,6 +16,10 @@ const User = loader.database.define('users', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  photos: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   isBan: {
     type: Sequelize.BOOLEAN,
     allowNull: false
