@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
+var favicon = require('serve-favicon');
 
 var PERMITTED_DOMAIN = 'nnn.ed.jp';
 
@@ -61,6 +62,7 @@ var logout = require('./routes/logout');
 
 var app = express();
 app.use(helmet());
+app.use(favicon(path.join(__dirname, 'public', 'images/favicon.ico')));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
