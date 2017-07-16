@@ -2,6 +2,7 @@
 
 const config = {
     PERMITTED_DOMAIN: 'nnn.ed.jp',
+    POSTGRESQL_URL: 'postgres://postgres:postgres@localhost/n_tokumei',
     MY_SITE_ROOT: process.env.GOOGLE_CLIENT_CALLBACL_ROOT,
     TWITTER_HASHTAG: 'N高匿名ダイアリー',
     DELETE_EXECUTOR_IDS: [
