@@ -3,7 +3,8 @@ var router = express.Router();
 const authenticationEnsurer = require('../authentication-ensurer');
 const moment = require('moment');
 const Diary = require('../../models/diary');
-const sanitizer = require('../sanitizer')
+const sanitizer = require('../sanitizer');
+const config = require('../../config');
 
 router.get('/', authenticationEnsurer, function (req, res, next) {
   Diary.findAll({
@@ -29,7 +30,8 @@ router.get('/', authenticationEnsurer, function (req, res, next) {
         title: req.user.displayName + ' の日記',
         diaries: diaries,
         user: req.user,
-        moment: moment
+        moment: moment,
+        config: config
       });
     });
 });

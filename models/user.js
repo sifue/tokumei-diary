@@ -24,7 +24,7 @@ const User = loader.database.define('users', {
     type: Sequelize.BOOLEAN,
     allowNull: false
   },
-  isAdmin: {
+  isDeleteExecutor: {
     type: Sequelize.BOOLEAN,
     allowNull: false
   }

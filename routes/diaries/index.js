@@ -4,6 +4,7 @@ var router = express.Router();
 const moment = require('moment');
 const Diary = require('../../models/diary');
 const sanitizer = require('../sanitizer')
+const config = require('../../config');
 
 router.get('/:diaryId', function (req, res, next) {
   Diary.findOne({
@@ -27,7 +28,8 @@ router.get('/:diaryId', function (req, res, next) {
         diary: diary,
         user: req.user,
         moment: moment,
-        isMine: isMine
+        isMine: isMine,
+        config: config
       });
     } else {
       res.render('diaries/not-found', {

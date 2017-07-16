@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 const moment = require('moment');
 const Diary = require('../models/diary');
-const sanitizer = require('./sanitizer')
+const sanitizer = require('./sanitizer');
+const config = require('../config');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -29,7 +30,8 @@ router.get('/', function (req, res, next) {
         title: 'N高 匿名ダイアリー',
         diaries: diaries,
         user: req.user,
-        moment: moment
+        moment: moment,
+        config: config
       });
     });
 });

@@ -8,8 +8,7 @@ var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
 var favicon = require('serve-favicon');
-
-var PERMITTED_DOMAIN = 'nnn.ed.jp';
+var config = require('./config');
 
 // Load data models and sync.
 var User = require('./models/user');
@@ -49,7 +48,7 @@ passport.use(new GoogleStrategy({
     process.nextTick(() => {
       // Check domain
       const emails = profile.emails;
-      const emailRegExp = new RegExp('.+@' + PERMITTED_DOMAIN + '$');
+      const emailRegExp = new RegExp('.+@' + config.PERMITTED_DOMAIN + '$');
       let isPermittedDomain = false;
       emails.forEach(e => {
         if (e.type = 'account' && e.value.match(emailRegExp)) {
@@ -65,14 +64,14 @@ passport.use(new GoogleStrategy({
           emails: JSON.stringify(profile.emails),
           photos: JSON.stringify(profile.photos),
           isBan: false,
-          isAdmin: false
+          isDeleteExecutor: config.isDeleteExecutor(profile.id)
         }).then(() => {
           done(null, profile);
         });
         return done(null, profile);
       } else {
         return done(null, false,
-          { message: 'ログインは、' + PERMITTED_DOMAIN 　+ 'ドメインのEmailアドレスでのみ認証可能です。' });
+          { message: 'ログインは、' + config.PERMITTED_DOMAIN 　+ 'ドメインのEmailアドレスでのみ認証可能です。' });
       }
     });
   }
@@ -80,7 +79,6 @@ passport.use(new GoogleStrategy({
 
 var index = require('./routes/index');
 var login = require('./routes/login');
-login.permittedDomain = PERMITTED_DOMAIN;
 var logout = require('./routes/logout');
 var agreement = require('./routes/agreement');
 var diariesNew = require('./routes/diaries/new');
