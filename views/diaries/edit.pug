@@ -28,4 +28,5 @@ block content
     input(type='hidden', name='diaryId', value= diary.diaryId)
     input(type='hidden', name='_csrf', value!= csrfToken)
     button(type='submit', class='waves-effect waves-light btn red darken-2') 以上の日記を削除する
+  script!= "document.addEventListener('DOMContentLoaded', function(event) { setTimeout(function(){jQuery('#body').trigger('autoresize');}, 300);});"
   br 
