@@ -9,8 +9,6 @@ var session = require('express-session');
 var passport = require('passport');
 var favicon = require('serve-favicon');
 var config = require('./config');
-const csrf = require('csurf');
-const csrfProtection = csrf({ cookie: true });
 
 // Load data models and sync.
 var User = require('./models/user');
