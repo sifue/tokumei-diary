@@ -26,12 +26,18 @@ router.get('/', authenticationEnsurer, function (req, res, next) {
         diary.isMine = isMine;
       })
 
+      let isDeleteExecutor = false;
+      if(req.user) {
+          isDeleteExecutor = config.isDeleteExecutor(req.user.id);
+      }
+
       res.render('diaries/my', {
         title: req.user.displayName + ' の日記',
         diaries: diaries,
         user: req.user,
         moment: moment,
-        config: config
+        config: config,
+        isDeleteExecutor: isDeleteExecutor
       });
     });
 });

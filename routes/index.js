@@ -26,12 +26,18 @@ router.get('/', function (req, res, next) {
         diary.isMine = isMine;
       })
 
+      let isDeleteExecutor = false;
+      if(req.user) {
+          isDeleteExecutor = config.isDeleteExecutor(req.user.id);
+      }
+
       res.render('index', {
         title: 'N高 匿名ダイアリー',
         diaries: diaries,
         user: req.user,
         moment: moment,
-        config: config
+        config: config,
+        isDeleteExecutor: isDeleteExecutor
       });
     });
 });

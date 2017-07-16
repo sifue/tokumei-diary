@@ -23,6 +23,10 @@ const Diary = loader.database.define('diaries', {
   isDeleted: {
     type: Sequelize.BOOLEAN,
     allowNull: false
+  },
+  deletedBy: {
+    type: Sequelize.STRING,
+    allowNull: true
   }
 }, {
     freezeTableName: true,

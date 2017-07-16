@@ -23,13 +23,19 @@ router.get('/:diaryId', function (req, res, next) {
         isMine = diary.userId === req.user.id
       }
 
+      let isDeleteExecutor = false;
+      if(req.user) {
+        isDeleteExecutor = config.isDeleteExecutor(req.user.id);
+      }
+
       res.render('diaries/index', {
         title: diary.sanitizedTitle,
         diary: diary,
         user: req.user,
         moment: moment,
         isMine: isMine,
-        config: config
+        config: config,
+        isDeleteExecutor: isDeleteExecutor
       });
     } else {
       res.render('diaries/not-found', {
@@ -113,7 +119,8 @@ router.post('/:diaryId/edit', function (req, res, next) {
             title: req.body.title.slice(0, Diary.titleMaxLength),
             body: req.body.body.slice(0, Diary.bodyMaxLength),
             userId: req.user.id,
-            isDeleted: false
+            isDeleted: false,
+            deletedBy: diary.deletedBy
           }).then(() => {
             res.redirect('/diaries/' + req.body.diaryId);
           });
@@ -150,13 +157,19 @@ router.post('/:diaryId/delete', function (req, res, next) {
         isMine = diary.userId === req.user.id
       }
 
-      if (isMine) {
+      let isDeleteExecutor = false;
+      if(req.user) {
+          isDeleteExecutor = config.isDeleteExecutor(req.user.id);
+      }
+
+      if (isMine || isDeleteExecutor) {
         Diary.upsert({
           diaryId: req.body.diaryId,
           title: diary.title,
           body: diary.body,
-          userId: req.user.id,
-          isDeleted: true
+          userId: diary.userId,
+          isDeleted: true,
+          deletedBy: req.user.id
         }).then(() => {
           res.redirect('/diaries/' + req.body.diaryId);
         });

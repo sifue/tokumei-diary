@@ -25,7 +25,8 @@ router.post('/', authenticationEnsurer, (req, res, next) => {
       title: req.body.title.slice(0, Diary.titleMaxLength),
       body: req.body.body.slice(0, Diary.bodyMaxLength),
       userId: req.user.id,
-      isDeleted: false
+      isDeleted: false,
+      deletedBy: null
     }).then(() => {
       res.redirect('/');
     });
