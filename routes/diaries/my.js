@@ -5,6 +5,7 @@ const moment = require('moment');
 const Diary = require('../../models/diary');
 const sanitizer = require('../sanitizer');
 const config = require('../../config');
+const trackbackMapFinder = require('../trackback-map-finder');
 
 router.get('/', authenticationEnsurer, function (req, res, next) {
   Diary.findAll({
@@ -16,6 +17,7 @@ router.get('/', authenticationEnsurer, function (req, res, next) {
     }
   ).then((diaries) => {
 
+      const toDiaryIds = [];
       diaries.forEach((diary) => {
         diary.sanitizedTitle = sanitizer(diary.title);
         diary.sanitizedBody = sanitizer(diary.body);
@@ -24,6 +26,7 @@ router.get('/', authenticationEnsurer, function (req, res, next) {
           isMine = diary.userId === req.user.id;
         }
         diary.isMine = isMine;
+        toDiaryIds.push(diary.diaryId);
       })
 
       let isDeleteExecutor = false;
@@ -31,13 +34,17 @@ router.get('/', authenticationEnsurer, function (req, res, next) {
           isDeleteExecutor = config.isDeleteExecutor(req.user.id);
       }
 
-      res.render('diaries/my', {
-        title: req.user.displayName + ' の日記',
-        diaries: diaries,
-        user: req.user,
-        moment: moment,
-        config: config,
-        isDeleteExecutor: isDeleteExecutor
+      // find trackbacks
+      trackbackMapFinder(toDiaryIds, function (mapFromDiaryIds) {
+        res.render('diaries/my', {
+          title: req.user.displayName + ' の日記',
+          diaries: diaries,
+          user: req.user,
+          moment: moment,
+          config: config,
+          isDeleteExecutor: isDeleteExecutor,
+          mapFromDiaryIds: mapFromDiaryIds
+        });
       });
     });
 });

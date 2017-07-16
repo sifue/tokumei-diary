@@ -25,3 +25,10 @@ block content
             form(method='post', action='/diaries/' + diary.diaryId + '/delete')
               input(type='hidden', name='diaryId', value= diary.diaryId)
               button(type='submit', class='waves-effect waves-light btn red darken-2') 削除人として削除する
+          div(class='left-align')
+          - fromDiaryIds = fromDiaryIds ? fromDiaryIds : [];
+          h6= 'トラックバック一覧 (' + fromDiaryIds.length + ')'
+          ul
+            each fromDiaryId in fromDiaryIds
+              li
+                a(href= '/diaries/' + fromDiaryId )= '/diaries/' + fromDiaryId

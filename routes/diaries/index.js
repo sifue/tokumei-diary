@@ -6,6 +6,8 @@ const Diary = require('../../models/diary');
 const sanitizer = require('../sanitizer')
 const config = require('../../config');
 const trackbackCreator = require('./trackback-creator');
+const trackbackMapFinder = require('../trackback-map-finder');
+
 
 router.get('/:diaryId', function (req, res, next) {
   Diary.findOne({
@@ -29,15 +31,20 @@ router.get('/:diaryId', function (req, res, next) {
         isDeleteExecutor = config.isDeleteExecutor(req.user.id);
       }
 
-      res.render('diaries/index', {
-        title: diary.sanitizedTitle,
-        diary: diary,
-        user: req.user,
-        moment: moment,
-        isMine: isMine,
-        config: config,
-        isDeleteExecutor: isDeleteExecutor
+      // find trackbacks
+      trackbackMapFinder([diary.diaryId], function (mapFromDiaryIds) {
+        res.render('diaries/index', {
+          title: diary.sanitizedTitle,
+          diary: diary,
+          user: req.user,
+          moment: moment,
+          isMine: isMine,
+          config: config,
+          isDeleteExecutor: isDeleteExecutor,
+          fromDiaryIds: mapFromDiaryIds.get(diary.diaryId)
+        });
       });
+
     } else {
       res.render('diaries/not-found', {
         title: 'お探しの日記は、削除されたか存在しません。',
