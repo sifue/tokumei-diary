@@ -24,9 +24,9 @@ html
         ul(id='nav-mobile', class='side-nav')
           if user
             li
-              a(href='/my') #{user.displayName} の日記
+              a(href='/diaries/my') #{user.displayName} の日記
             li
-              a(href='/new') 日記を書く
+              a(href='/diaries/new') 日記を書く
             li
               a(href='/logout') ログアウト
           else
