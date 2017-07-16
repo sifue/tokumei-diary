@@ -22,4 +22,8 @@ block content
             p 投稿者は、投稿された内容及びこれに含まれる知的財産権、（著作権法第21条ないし第28条に規定される権利も含む）その他の権利につき（第三者に対して再許諾する権利を含みます。）、匿名ダイアリー運営者(Soichiro Yoshimura)に対し、無償で譲渡することを承諾します。ただし、投稿が別に定める削除ガイドラインに該当する場合、投稿に関する知的財産権その他の権利、義務は一定期間投稿者に留保されます。頒布及び翻訳する権利を投稿者に許諾します。また、投稿者は掲示板運営者(Soichiro Yoshimura)が指定する第三者に対して、一切の権利（第三者に対して再許諾する権利を含みます）を許諾しないことを承諾します。
             p 投稿者は、掲示板運営者(Soichiro Yoshimura)あるいはその指定する者に対して、著作者人格権を一切行使しないことを承諾します。
     button(type='submit', class='waves-effect waves-light btn blue darken-2') 日記を編集
+  br
+  form(class='col s12', method='post', action='/diaries/' + diary.diaryId + '/delete')
+    input(type='hidden', name='diaryId', value= diary.diaryId)
+    button(type='submit', class='waves-effect waves-light btn red darken-2') 日記を削除
   br 

@@ -132,4 +132,47 @@ router.post('/:diaryId/edit', function (req, res, next) {
   }
 });
 
+router.post('/:diaryId/delete', function (req, res, next) {
+
+  Diary.findOne({
+    where: {
+      diaryId: req.body.diaryId,
+      isDeleted: false
+    }
+  }
+  ).then((diary) => {
+
+    if (diary) {
+      let isMine = false;
+      if (req.user) {
+        isMine = diary.userId === req.user.id
+      }
+
+      if (isMine) {
+        Diary.upsert({
+          diaryId: req.body.diaryId,
+          title: diary.title,
+          body: diary.body,
+          userId: req.user.id,
+          isDeleted: true
+        }).then(() => {
+          res.redirect('/diaries/' + req.body.diaryId);
+        });
+      } else {
+        res.render('diaries/not-found', {
+          title: 'お探しの日記は、あなたによって投稿されていません。',
+          user: req.user
+        });
+      }
+
+    } else {
+      res.render('diaries/not-found', {
+        title: 'お探しの日記は、削除されたか存在しません。',
+        user: req.user
+      });
+    }
+  });
+
+});
+
 module.exports = router;
