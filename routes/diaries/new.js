@@ -13,15 +13,22 @@ router.get('/', authenticationEnsurer, (req, res, next) => {
 });
 
 router.post('/', authenticationEnsurer, (req, res, next) => {
-  const diaryId = moment(new Date()).format('YYYYMMDDHHmmssSSS');
-  Diary.create({
-    diaryId: diaryId,
-    title: req.body.title.slice(0, Diary.titleMaxLength),
-    body: req.body.body.slice(0, Diary.bodyMaxLength),
-    userId: req.user.id,
-    isDeleted: false
-  }).then(() => {
-    res.redirect('/');
-  });
+  if(req.body.title.trim() === '' || req.body.body.trim() === '') {
+    res.render('diaries/is-empty', {
+      title: 'タイトルまたは本文が空の投稿はできません。',
+      user: req.user
+    });
+  } else {
+    const diaryId = moment(new Date()).format('YYYYMMDDHHmmssSSS');
+    Diary.create({
+      diaryId: diaryId,
+      title: req.body.title.slice(0, Diary.titleMaxLength),
+      body: req.body.body.slice(0, Diary.bodyMaxLength),
+      userId: req.user.id,
+      isDeleted: false
+    }).then(() => {
+      res.redirect('/');
+    });
+  }
 });
 module.exports = router;
