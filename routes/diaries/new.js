@@ -4,6 +4,7 @@ const router = express.Router();
 const authenticationEnsurer = require('../authentication-ensurer');
 const Diary = require('../../models/diary');
 const moment = require('moment');
+const trackbackCreator = require('./trackback-creator');
 
 router.get('/', authenticationEnsurer, (req, res, next) => {
   res.render('diaries/new', { 
@@ -27,8 +28,13 @@ router.post('/', authenticationEnsurer, (req, res, next) => {
       userId: req.user.id,
       isDeleted: false,
       deletedBy: null
-    }).then(() => {
-      res.redirect('/');
+    }).then((fromDiary) => {
+
+      // Create Trackback
+      trackbackCreator(fromDiary, function() {
+        res.redirect('/');
+      });
+
     });
   }
 });

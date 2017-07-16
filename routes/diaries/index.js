@@ -5,6 +5,7 @@ const moment = require('moment');
 const Diary = require('../../models/diary');
 const sanitizer = require('../sanitizer')
 const config = require('../../config');
+const trackbackCreator = require('./trackback-creator');
 
 router.get('/:diaryId', function (req, res, next) {
   Diary.findOne({
@@ -122,7 +123,17 @@ router.post('/:diaryId/edit', function (req, res, next) {
             isDeleted: false,
             deletedBy: diary.deletedBy
           }).then(() => {
-            res.redirect('/diaries/' + req.body.diaryId);
+            // Create Trackback
+            Diary.findOne({
+              where: {
+                diaryId: req.body.diaryId,
+                isDeleted: false
+              }
+            }).then((fromDiary) => {
+              trackbackCreator(fromDiary, function () {
+                res.redirect('/diaries/' + req.body.diaryId);
+              });
+            });
           });
         } else {
           res.render('diaries/not-found', {

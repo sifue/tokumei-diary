@@ -9,7 +9,8 @@ const config = {
     ],
     isDeleteExecutor: (id) => {
         return config.DELETE_EXECUTOR_IDS.includes(id);
-    }
+    },
+    DIARY_URL_REGEXP_TEXT: 'https?:\/\/(localhost:[0-9]+|n-tokumei\.soichiro\.org)\/diaries\/([0-9]+)'
 };
 
 module.exports = config;
