@@ -1,17 +1,17 @@
 var express = require('express');
 var router = express.Router();
+const authenticationEnsurer = require('../authentication-ensurer');
 const moment = require('moment');
-const Diary = require('../models/diary');
-const sanitizer = require('./sanitizer')
+const Diary = require('../../models/diary');
+const sanitizer = require('../sanitizer')
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', authenticationEnsurer, function (req, res, next) {
   Diary.findAll({
       where: {
-        isDeleted: false
+        isDeleted: false,
+        userId: req.user.id
       },
-      order: [['diaryId', 'DESC']],
-      limit: 20
+      order: [['diaryId', 'DESC']]
     }
   ).then((diaries) => {
 
@@ -25,8 +25,8 @@ router.get('/', function (req, res, next) {
         diary.isMine = isMine;
       })
 
-      res.render('index', {
-        title: 'N高 匿名ダイアリー',
+      res.render('diaries/my', {
+        title: req.user.displayName + ' の日記',
         diaries: diaries,
         user: req.user,
         moment: moment
