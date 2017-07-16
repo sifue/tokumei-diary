@@ -7,9 +7,10 @@ const sanitizer = require('../sanitizer')
 const config = require('../../config');
 const trackbackCreator = require('./trackback-creator');
 const trackbackMapFinder = require('../trackback-map-finder');
+const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: true });
 
-
-router.get('/:diaryId', function (req, res, next) {
+router.get('/:diaryId', csrfProtection, function (req, res, next) {
   Diary.findOne({
       where: {
         diaryId: req.params.diaryId,
@@ -41,7 +42,8 @@ router.get('/:diaryId', function (req, res, next) {
           isMine: isMine,
           config: config,
           isDeleteExecutor: isDeleteExecutor,
-          fromDiaryIds: mapFromDiaryIds.get(diary.diaryId)
+          fromDiaryIds: mapFromDiaryIds.get(diary.diaryId),
+          csrfToken: req.csrfToken()
         });
       });
 
@@ -55,7 +57,7 @@ router.get('/:diaryId', function (req, res, next) {
 
 });
 
-router.get('/:diaryId/edit', function (req, res, next) {
+router.get('/:diaryId/edit', csrfProtection, function (req, res, next) {
 
   Diary.findOne({
     where: {
@@ -78,7 +80,8 @@ router.get('/:diaryId/edit', function (req, res, next) {
           title: '日記の編集 - ' + diary.sanitizedTitle,
           diary: diary,
           user: req.user,
-          moment: moment
+          moment: moment,
+          csrfToken: req.csrfToken()
         });
       } else {
         res.render('diaries/not-found', {
@@ -97,7 +100,7 @@ router.get('/:diaryId/edit', function (req, res, next) {
 
 });
 
-router.post('/:diaryId/edit', function (req, res, next) {
+router.post('/:diaryId/edit', csrfProtection, function (req, res, next) {
 
   if (req.body.title.trim() === '' || req.body.body.trim() === '') {
     res.render('diaries/is-empty', {
@@ -159,7 +162,7 @@ router.post('/:diaryId/edit', function (req, res, next) {
   }
 });
 
-router.post('/:diaryId/delete', function (req, res, next) {
+router.post('/:diaryId/delete', csrfProtection, function (req, res, next) {
 
   Diary.findOne({
     where: {
