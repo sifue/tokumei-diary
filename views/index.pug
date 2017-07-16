@@ -12,7 +12,7 @@ block content
               h5
                a(href= '/diaries/' + diary.diaryId )= moment(diary.createdAt).format('[[]YYYY-MM-DD HH:mm[]]')
                span 
-               span= diary.title
-            p(style="white-space:pre-wrap;")= diary.body
+               span!= diary.sanitizedTitle
+            p(style="white-space:pre-wrap;")!= diary.sanitizedBody
 
   br
