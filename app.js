@@ -58,17 +58,28 @@ passport.use(new GoogleStrategy({
       );
 
       if (isPermittedDomain) {
-        User.upsert({
-          userId: profile.id,
-          displayName: profile.displayName,
-          emails: JSON.stringify(profile.emails),
-          photos: JSON.stringify(profile.photos),
-          isBan: false,
-          isDeleteExecutor: config.isDeleteExecutor(profile.id)
-        }).then(() => {
-          done(null, profile);
+        User.findOne({
+          where: {
+            userId: profile.id
+          }
+        }).then((user) => {
+          if(!user || !user.isBan) { // 未登録ユーザー or 非BANユーザーは追加更新
+            User.upsert({
+              userId: profile.id,
+              displayName: profile.displayName,
+              emails: JSON.stringify(profile.emails),
+              photos: JSON.stringify(profile.photos),
+              isBan: false,
+              isDeleteExecutor: config.isDeleteExecutor(profile.id)
+            }).then(() => {
+              done(null, profile);
+            });
+            return done(null, profile);
+          } else {
+            return done(null, false,
+              { message: 'あなたのアカウントはバンされています。' });
+          }
         });
-        return done(null, profile);
       } else {
         return done(null, false,
           { message: 'ログインは、' + config.PERMITTED_DOMAIN 　+ 'ドメインのEmailアドレスでのみ認証可能です。' });
