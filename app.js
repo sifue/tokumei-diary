@@ -134,9 +134,17 @@ app.get('/auth/google',
 
 app.get('/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: '/login'}),
+    failureRedirect: '/login'
+  }),
   function (req, res) {
-    res.redirect('/');
+    var loginFrom = req.cookies.loginFrom;
+    if (loginFrom &&
+      loginFrom.substr(0, 1) === '/') { // from document root
+      res.clearCookie('loginFrom');
+      res.redirect(loginFrom);
+    } else {
+      res.redirect('/');
+    }
   });
 
 // catch 404 and forward to error handler

@@ -9,7 +9,7 @@ block content
         div(class='card blue lighten-5')
           div(class='card-content')
             p(class='card-title')
-              h5
+              h6
                a(href= '/diaries/' + diary.diaryId )= moment(diary.createdAt).format('[[]YYYY-MM-DD HH:mm[]]')
                span 
                span!= diary.sanitizedTitle
@@ -18,6 +18,8 @@ block content
               a(href='https://twitter.com/share' class='twitter-share-button', data-url= config.MY_SITE_ROOT + 'diaries/' + diary.diaryId, data-text= diary.sanitizedTitle.slice(0,25) , data-hashtags= config.TWITTER_HASHTAG)
               script= "!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');"
           div(class='card-action')
+            a(href='/diaries/new?reply_to=' + diary.diaryId, class='waves-effect waves-light btn blue darken-2') 返信の日記を書く
+            span  
             if diary.isMine
               a(href='/diaries/' + diary.diaryId + '/edit', class='waves-effect waves-light btn blue darken-2') 編集
             if isDeleteExecutor
@@ -26,6 +28,8 @@ block content
               form(method='post', action='/diaries/' + diary.diaryId + '/delete')
                 input(type='hidden', name='diaryId', value= diary.diaryId)
                 button(type='submit', class='waves-effect waves-light btn red darken-2') 削除人として削除する
+            br
+            br
             div(class='left-align')
               - var fromDiaryIds = mapFromDiaryIds.get(diary.diaryId)
               - fromDiaryIds = fromDiaryIds ? fromDiaryIds : [];

@@ -5,10 +5,17 @@ const authenticationEnsurer = require('../authentication-ensurer');
 const Diary = require('../../models/diary');
 const moment = require('moment');
 const trackbackCreator = require('./trackback-creator');
+const config = require('../../config');
 
 router.get('/', authenticationEnsurer, (req, res, next) => {
+  let replyTo = '';
+  if (req.query.reply_to) {
+    replyTo = config.MY_SITE_ROOT + 'diaries/' + req.query.reply_to;
+  }
+
   res.render('diaries/new', { 
     user: req.user,
+    replyTo: replyTo,
     title: '日記を書く'
    });
 });

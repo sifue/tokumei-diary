@@ -2,7 +2,7 @@
 
 const config = {
     PERMITTED_DOMAIN: 'nnn.ed.jp',
-    MY_SITE_ROOT: 'https://n-tokumei.soichiro.org/',
+    MY_SITE_ROOT: process.env.GOOGLE_CLIENT_CALLBACL_ROOT,
     TWITTER_HASHTAG: 'N高匿名ダイアリー',
     DELETE_EXECUTOR_IDS: [
         '117091664744922161167'
