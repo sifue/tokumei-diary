@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 const moment = require('moment');
 const Diary = require('../../models/diary');
-const sanitizer = require('../sanitizer')
+const sanitizer = require('../sanitizer');
 const config = require('../../config');
 const trackbackCreator = require('./trackback-creator');
 const trackbackMapFinder = require('../trackback-map-finder');
@@ -24,7 +24,7 @@ router.get('/:diaryId', csrfProtection, function (req, res, next) {
       diary.sanitizedBody = sanitizer(diary.body);
       let isMine = false;
       if (req.user) {
-        isMine = diary.userId === req.user.id
+        isMine = diary.userId === req.user.id;
       }
 
       let isDeleteExecutor = false;
@@ -75,7 +75,7 @@ router.get('/:diaryId/edit', csrfProtection, function (req, res, next) {
 
       let isMine = false;
       if (req.user) {
-        isMine = diary.userId === req.user.id
+        isMine = diary.userId === req.user.id;
       }
 
       if (isMine) {
@@ -132,7 +132,7 @@ router.post('/:diaryId/edit', csrfProtection, function (req, res, next) {
         diary.sanitizedTitle = sanitizer(diary.title);
         let isMine = false;
         if (req.user) {
-          isMine = diary.userId === req.user.id
+          isMine = diary.userId === req.user.id;
         }
 
         if (isMine) {

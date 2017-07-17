@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
-var favicon = require('serve-favicon');
 var config = require('./config');
 
 // Load data models and sync.
@@ -53,8 +52,8 @@ passport.use(new GoogleStrategy({
       const emails = profile.emails;
       const emailRegExp = new RegExp('.+@' + config.PERMITTED_DOMAIN + '$');
       let isPermittedDomain = false;
-      emails.forEach(e => {
-        if (e.type = 'account' && e.value.match(emailRegExp)) {
+      emails.forEach((elem) => {
+        if (elem.type == 'account' && elem.value.match(emailRegExp)) {
           isPermittedDomain = true;
         }
       }
@@ -85,7 +84,7 @@ passport.use(new GoogleStrategy({
         });
       } else {
         return done(null, false,
-          { message: 'ログインは、' + config.PERMITTED_DOMAIN 　+ 'ドメインのEmailアドレスでのみ認証可能です。' });
+          { message: 'ログインは、' + config.PERMITTED_DOMAIN + 'ドメインのEmailアドレスでのみ認証可能です。' });
       }
     });
   }
