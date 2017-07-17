@@ -6,10 +6,11 @@ html
     link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
     link(type='text/css', rel='stylesheet', media='screen,projection', href='//cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css')
     link(type='text/css', rel='stylesheet', media='screen,projection', href='/stylesheets/style.css')
+    block metacontent
   body
     nav(class='indigo darken-3', role='navigation')
       div(class='nav-wrapper container')
-        a(id='logo-container', href='/', class='brand-logo') N高 匿名ダイアリー
+        a(id='logo-container', href='/', class='brand-logo')= config.LETTER_TITLE
         ul(class='right hide-on-med-and-down')
           if user
             li
@@ -35,7 +36,7 @@ html
         a(href='/', data-activates='nav-mobile', class='button-collapse')
           i(class='material-icons') menu
     div(class='container') 
-      h6 N高等学校関係者だけが書き込める公開日記で、名前を隠して楽しく日記。
+      h6= config.LETTER_SUB_TITLE
     div(class='container')
       block content
 
@@ -47,11 +48,11 @@ html
         p(class='white-text') 投稿時の
           a(href='/agreement') 承諾事項
           apan 、運営に関するお問い合わせは  
-          a(href='https://twitter.com/sifue') sifue (Soichiro Yoshimura) 
+          a(href='https://twitter.com/sifue') sifue (#{config.LETTER_OPERATOR}) 
           span まで。
       div(class='footer-copyright')
         div(class='container') 
-          p Copyright © 2017- Soichiro Yoshimura All Rights Reserved.
+          p Copyright © 2017- #{config.LETTER_OPERATOR} All Rights Reserved.
     script(type='text/javascript', src='//code.jquery.com/jquery-2.1.1.min.js')
     script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js')
     script(type='text/javascript', src='/javascripts/init.js')

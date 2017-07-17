@@ -1,7 +1,14 @@
 extends layout
 
+block metacontent
+  meta(name='twitter:card', content='summary')
+  meta(name='twitter:site', content='@n_tokumei' )
+  meta(name='twitter:title', content= config.LETTER_TITLE)
+  meta(name='twitter:description', content= config.LETTER_SUB_TITLE)
+  meta(name='twitter:image', content= config.TWITTER_CARDS_IMG)
+
 block content
-  h5(class='red-text text-darken-1') N高等学校のメールアドレス以外ではログインできません。
+  h5(class='red-text text-darken-1') #{config.LETTER_MAIL_DOMAIN_OWNER}のメールアドレス以外ではログインできません。
     br
     span また、アカウントがバンされた場合もログインできません。
   a(href='/auth/google', class='waves-effect waves-light btn blue darken-2') #{permittedDomain}のドメインのGoogleアカウントでログイン

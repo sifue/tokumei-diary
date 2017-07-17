@@ -5,6 +5,11 @@ const config = {
     POSTGRESQL_URL: 'postgres://postgres:postgres@localhost/n_tokumei',
     MY_SITE_ROOT: process.env.GOOGLE_CLIENT_CALLBACL_ROOT,
     TWITTER_HASHTAG: 'N高匿名ダイアリー',
+    TWITTER_CARDS_IMG: 'https://n-tokumei.soichiro.org/images/n-tokumei_200px.png',
+    LETTER_TITLE: 'N高 匿名ダイアリー',
+    LETTER_SUB_TITLE: 'N高等学校関係者だけが書き込める公開日記で、名前を隠して楽しく日記。',
+    LETTER_OPERATOR: 'Soichiro Yoshimura',
+    LETTER_MAIL_DOMAIN_OWNER: 'N高等学校',
     DELETE_EXECUTOR_IDS: [
         '117091664744922161167'
     ],

@@ -50,7 +50,8 @@ router.get('/:diaryId', csrfProtection, function (req, res, next) {
     } else {
       res.render('diaries/not-found', {
         title: 'お探しの日記は、削除されたか存在しません。',
-        user: req.user
+        user: req.user,
+        config: config
       });
     }
   });
@@ -80,20 +81,23 @@ router.get('/:diaryId/edit', csrfProtection, function (req, res, next) {
           title: '日記の編集 - ' + diary.sanitizedTitle,
           diary: diary,
           user: req.user,
+          config: config,
           moment: moment,
           csrfToken: req.csrfToken()
         });
       } else {
         res.render('diaries/not-found', {
           title: 'お探しの日記は、あなたによって投稿されていません。',
-          user: req.user
+          user: req.user,
+          config: config
         });
       }
 
     } else {
       res.render('diaries/not-found', {
         title: 'お探しの日記は、削除されたか存在しません。',
-        user: req.user
+        user: req.user,
+        config: config
       });
     }
   });
@@ -105,7 +109,8 @@ router.post('/:diaryId/edit', csrfProtection, function (req, res, next) {
   if (req.body.title.trim() === '' || req.body.body.trim() === '') {
     res.render('diaries/is-empty', {
       title: 'タイトルまたは本文が空の投稿はできません。',
-      user: req.user
+      user: req.user,
+      config: config
     });
   } else {
 
@@ -148,14 +153,16 @@ router.post('/:diaryId/edit', csrfProtection, function (req, res, next) {
         } else {
           res.render('diaries/not-found', {
             title: 'お探しの日記は、あなたによって投稿されていません。',
-            user: req.user
+            user: req.user,
+            config: config
           });
         }
 
       } else {
         res.render('diaries/not-found', {
           title: 'お探しの日記は、削除されたか存在しません。',
-          user: req.user
+          user: req.user,
+          config: config
         });
       }
     });
@@ -197,14 +204,16 @@ router.post('/:diaryId/delete', csrfProtection, function (req, res, next) {
       } else {
         res.render('diaries/not-found', {
           title: 'お探しの日記は、あなたによって投稿されていません。',
-          user: req.user
+          user: req.user,
+          config: config
         });
       }
 
     } else {
       res.render('diaries/not-found', {
         title: 'お探しの日記は、削除されたか存在しません。',
-        user: req.user
+        user: req.user,
+        config: config
       });
     }
   });

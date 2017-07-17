@@ -10,7 +10,8 @@ router.get('/', (req, res, next) => {
     }
     res.render('login', {
         user: req.user,
-        permittedDomain: config.PERMITTED_DOMAIN
+        permittedDomain: config.PERMITTED_DOMAIN,
+        config: config
     });
 });
 

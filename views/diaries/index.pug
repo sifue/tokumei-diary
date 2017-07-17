@@ -1,5 +1,12 @@
 extends ../layout
 
+block metacontent
+  meta(name='twitter:card', content='summary')
+  meta(name='twitter:site', content='@n_tokumei' )
+  meta(name='twitter:title', content= diary.title)
+  meta(name='twitter:description', content= diary.body)
+  meta(name='twitter:image', content= config.TWITTER_CARDS_IMG)
+
 block content
   br
   div(class='row')

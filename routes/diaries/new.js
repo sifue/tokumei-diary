@@ -19,7 +19,8 @@ router.get('/', authenticationEnsurer, csrfProtection, (req, res, next) => {
     user: req.user,
     replyTo: replyTo,
     title: '日記を書く',
-    csrfToken: req.csrfToken()
+    csrfToken: req.csrfToken(),
+    config: config
    });
 });
 
@@ -27,7 +28,8 @@ router.post('/', authenticationEnsurer, csrfProtection, (req, res, next) => {
   if(req.body.title.trim() === '' || req.body.body.trim() === '') {
     res.render('diaries/is-empty', {
       title: 'タイトルまたは本文が空の投稿はできません。',
-      user: req.user
+      user: req.user,
+      config: config
     });
   } else {
     const diaryId = moment(new Date()).format('YYYYMMDDHHmmssSSS');
