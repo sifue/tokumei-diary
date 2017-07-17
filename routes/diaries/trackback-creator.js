@@ -45,7 +45,7 @@ function trackbackCreator(fromDiary, next) {
 
     Promise.all(promiseTrackbacks).then(() => {
         next();
-    })
+    });
 }
 
 module.exports = trackbackCreator;

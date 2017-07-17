@@ -27,7 +27,7 @@ router.get('/', authenticationEnsurer, function (req, res, next) {
         }
         diary.isMine = isMine;
         toDiaryIds.push(diary.diaryId);
-      })
+      });
 
       let isDeleteExecutor = false;
       if(req.user) {
@@ -38,6 +38,7 @@ router.get('/', authenticationEnsurer, function (req, res, next) {
       trackbackMapFinder(toDiaryIds, function (mapFromDiaryIds) {
         res.render('diaries/my', {
           title: req.user.displayName + ' の日記',
+          description: config.LETTER_SUB_TITLE,
           diaries: diaries,
           user: req.user,
           moment: moment,

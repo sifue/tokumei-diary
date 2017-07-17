@@ -36,6 +36,7 @@ router.get('/:diaryId', csrfProtection, function (req, res, next) {
       trackbackMapFinder([diary.diaryId], function (mapFromDiaryIds) {
         res.render('diaries/index', {
           title: diary.sanitizedTitle,
+          description: diary.sanitizedBody,
           diary: diary,
           user: req.user,
           moment: moment,
@@ -50,6 +51,7 @@ router.get('/:diaryId', csrfProtection, function (req, res, next) {
     } else {
       res.render('diaries/not-found', {
         title: 'お探しの日記は、削除されたか存在しません。',
+        description: config.LETTER_SUB_TITLE,
         user: req.user,
         config: config
       });
@@ -79,6 +81,7 @@ router.get('/:diaryId/edit', csrfProtection, function (req, res, next) {
       if (isMine) {
         res.render('diaries/edit', {
           title: '日記の編集 - ' + diary.sanitizedTitle,
+          description: config.LETTER_SUB_TITLE,
           diary: diary,
           user: req.user,
           config: config,
@@ -88,6 +91,7 @@ router.get('/:diaryId/edit', csrfProtection, function (req, res, next) {
       } else {
         res.render('diaries/not-found', {
           title: 'お探しの日記は、あなたによって投稿されていません。',
+          description: config.LETTER_SUB_TITLE,
           user: req.user,
           config: config
         });
@@ -96,6 +100,7 @@ router.get('/:diaryId/edit', csrfProtection, function (req, res, next) {
     } else {
       res.render('diaries/not-found', {
         title: 'お探しの日記は、削除されたか存在しません。',
+        description: config.LETTER_SUB_TITLE,
         user: req.user,
         config: config
       });
@@ -109,6 +114,7 @@ router.post('/:diaryId/edit', csrfProtection, function (req, res, next) {
   if (req.body.title.trim() === '' || req.body.body.trim() === '') {
     res.render('diaries/is-empty', {
       title: 'タイトルまたは本文が空の投稿はできません。',
+      description: config.LETTER_SUB_TITLE,
       user: req.user,
       config: config
     });
@@ -153,6 +159,7 @@ router.post('/:diaryId/edit', csrfProtection, function (req, res, next) {
         } else {
           res.render('diaries/not-found', {
             title: 'お探しの日記は、あなたによって投稿されていません。',
+            description: config.LETTER_SUB_TITLE,
             user: req.user,
             config: config
           });
@@ -161,6 +168,7 @@ router.post('/:diaryId/edit', csrfProtection, function (req, res, next) {
       } else {
         res.render('diaries/not-found', {
           title: 'お探しの日記は、削除されたか存在しません。',
+          description: config.LETTER_SUB_TITLE,
           user: req.user,
           config: config
         });
@@ -182,7 +190,7 @@ router.post('/:diaryId/delete', csrfProtection, function (req, res, next) {
     if (diary) {
       let isMine = false;
       if (req.user) {
-        isMine = diary.userId === req.user.id
+        isMine = diary.userId === req.user.id;
       }
 
       let isDeleteExecutor = false;
@@ -204,6 +212,7 @@ router.post('/:diaryId/delete', csrfProtection, function (req, res, next) {
       } else {
         res.render('diaries/not-found', {
           title: 'お探しの日記は、あなたによって投稿されていません。',
+          description: config.LETTER_SUB_TITLE,
           user: req.user,
           config: config
         });
@@ -212,6 +221,7 @@ router.post('/:diaryId/delete', csrfProtection, function (req, res, next) {
     } else {
       res.render('diaries/not-found', {
         title: 'お探しの日記は、削除されたか存在しません。',
+        description: config.LETTER_SUB_TITLE,
         user: req.user,
         config: config
       });

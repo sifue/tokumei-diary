@@ -41,5 +41,4 @@
     "sequelize": "^4.3.2",
     "serve-favicon": "^2.4.3"
   }
-  
 }

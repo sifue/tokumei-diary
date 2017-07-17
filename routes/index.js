@@ -28,7 +28,7 @@ router.get('/', function (req, res, next) {
       }
       diary.isMine = isMine;
       toDiaryIds.push(diary.diaryId);
-    })
+    });
 
     let isDeleteExecutor = false;
     if (req.user) {
@@ -38,7 +38,8 @@ router.get('/', function (req, res, next) {
     // find trackbacks
     trackbackMapFinder(toDiaryIds, function (mapFromDiaryIds) {
       res.render('index', {
-        title: 'N高 匿名ダイアリー',
+        title: config.LETTER_TITLE,
+        description: config.LETTER_SUB_TITLE,
         diaries: diaries,
         user: req.user,
         moment: moment,

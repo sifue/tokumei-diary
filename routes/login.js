@@ -9,6 +9,8 @@ router.get('/', (req, res, next) => {
       res.cookie('loginFrom', from, { expires: new Date(Date.now() + 600000)});
     }
     res.render('login', {
+        title: 'ログイン - ' + config.LETTER_TITLE,
+        description: config.LETTER_SUB_TITLE,
         user: req.user,
         permittedDomain: config.PERMITTED_DOMAIN,
         config: config
