@@ -18,7 +18,16 @@ HerokuのPostgreSQLでも大丈夫だがしっかり運用しようと思うと�
 tokumei-diary-template.sh を編集して tokumei-diary.sh というファイル名にして `./tokumei-diary.sh` で実行するか
 
 ```
-env NODE_ENV=production PORT=8000 GOOGLE_CLIENT_ID=xxxxxxxx-xxxxxxxxxxxxxxxx GOOGLE_CLIENT_SECRET=xxxxxx-xxxxxxxxxxxxxx GOOGLE_CLIENT_CALLBACL_ROOT='https://domain/' npm start 2>&1 | tee application.log
+env NODE_ENV=development \
+PORT=8000 \
+GOOGLE_CLIENT_ID=xxxxxxxxxxx-xxxxxxxxxxxxx.apps.googleusercontent.com \
+GOOGLE_CLIENT_SECRET=xxxxx-xxxxxxx \
+GOOGLE_CLIENT_CALLBACL_ROOT='http://localhost:8000/' \
+TWITTER_CONSUMER_KEY=xxxxxxxxxxxxx \
+TWITTER_CONSUMER_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \
+TWITTER_ACCESS_TOKEN_KEY=xxxxxx-xxxxxxxxxxxxxxxxxx \
+TWITTER_ACCESS_TOKEN_SECRET=xxxxxxxxxxxxxxxx \
+npm start  2>&1 | tee application.log
 ```
 
 以上のような形式となる。
