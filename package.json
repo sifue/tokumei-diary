@@ -1,6 +1,6 @@
 {
   "name": "tokumei-diary",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Hatena Anonymous Diary Clone for Google account.",
   "main": "app.js",
   "devDependencies": {},
