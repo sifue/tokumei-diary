@@ -6,7 +6,7 @@ const config = {
     MY_SITE_ROOT: process.env.GOOGLE_CLIENT_CALLBACL_ROOT,
     TWITTER_HASHTAG: 'N高匿名ダイアリー',
     TWITTER_CARDS_IMG: 'https://n-tokumei.soichiro.org/images/n-tokumei_200px.png',
-    TWITTER_POST_MESSAGE: '#N高匿名ダイアリー の新規投稿 ',
+    TWITTER_POST_MESSAGE: 'N高 匿名ダイアリーの新規投稿 ',
     LETTER_TITLE: 'N高 匿名ダイアリー',
     LETTER_SUB_TITLE: 'N高等学校関係者だけが書き込める公開日記で、名前を隠して楽しく日記。',
     LETTER_OPERATOR: 'Soichiro Yoshimura',
