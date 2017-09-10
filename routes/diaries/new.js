@@ -6,6 +6,7 @@ const Diary = require('../../models/diary');
 const moment = require('moment');
 const trackbackCreator = require('./trackback-creator');
 const config = require('../../config');
+const twitterPoster = require('./twitter-poster');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
 
@@ -43,12 +44,13 @@ router.post('/', authenticationEnsurer, csrfProtection, (req, res, next) => {
       isDeleted: false,
       deletedBy: null
     }).then((fromDiary) => {
-
       // Create Trackback
       trackbackCreator(fromDiary, function() {
         res.redirect('/');
       });
 
+      // Tweet post
+      twitterPoster.post(fromDiary);
     });
   }
 });

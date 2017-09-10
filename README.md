@@ -15,6 +15,8 @@ HerokuのPostgreSQLでも大丈夫だがしっかり運用しようと思うと�
 
 # 起動コマンド
 
+tokumei-diary-template.sh を編集して tokumei-diary.sh というファイル名にして `./tokumei-diary.sh` で実行するか
+
 ```
 env NODE_ENV=production PORT=8000 GOOGLE_CLIENT_ID=xxxxxxxx-xxxxxxxxxxxxxxxx GOOGLE_CLIENT_SECRET=xxxxxx-xxxxxxxxxxxxxx GOOGLE_CLIENT_CALLBACL_ROOT='https://domain/' npm start 2>&1 | tee application.log
 ```
