@@ -53,7 +53,7 @@ passport.use(new GoogleStrategy({
       const emailRegExp = new RegExp('.+@' + config.PERMITTED_DOMAIN + '$');
       let isPermittedDomain = false;
       emails.forEach((elem) => {
-        if (elem.type == 'account' && elem.value.match(emailRegExp)) {
+        if (elem.verified && elem.value.match(emailRegExp)) {
           isPermittedDomain = true;
         }
       }
